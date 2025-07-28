@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{12351091-5C2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEAdapter.Domain", "SMEAdapter.Domain\SMEAdapter.Domain.csproj", "{EE3A6F7D-B28C-4AAE-AC45-2C999E4EA335}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEAdapter.Application", "SMEAdapter.Appication\SMEAdapter.Application.csproj", "{B097DFEA-2127-48B4-95C5-D38E5B27C4A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEAdapter.Application", "SMEAdapter.Application\SMEAdapter.Application.csproj", "{B097DFEA-2127-48B4-95C5-D38E5B27C4A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp", "BlazorApp\BlazorApp.csproj", "{1EB951A4-83AD-4B9D-9603-D087207DDA91}"
 EndProject
