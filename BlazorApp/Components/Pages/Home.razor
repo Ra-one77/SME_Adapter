@@ -1,12 +1,18 @@
 ﻿@page "/"
 @inject NavigationManager Navigation
 <PageTitle>Home</PageTitle>
-
-<h1>Start by entering the company details!</h1>
+<br/>
+<br/>
+<br/>
+<h2>Start by entering the company details!</h2>
 
 <br/>
 <br/>
-<button class="btn btn-secondary" @onclick="ShowForm">Enter Company Details</button>
+
+<MudButton Variant="Variant.Filled" @onclick="ShowForm" Color="Color.Primary" Size="Size.Large" Style="font-size: 18px;
+           font-weight: bold;
+           font-family: Open Sans;">Enter Company Details</MudButton>
+
 
 @if (showForm)
 {

@@ -10,6 +10,7 @@ namespace SMEAdapter.Application.DTOs
      public class ProductDto
      {
         public Guid Id { get; set; } = Guid.NewGuid();
+
         [Required(ErrorMessage = "Manufacturer Name is required")]
         public string ManufacturerName { get; set; } = string.Empty;
         public AddressInfo AddressInfo { get; set; } = new AddressInfo();

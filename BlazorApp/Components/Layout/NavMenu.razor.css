@@ -1,3 +1,9 @@
+
+.nav-menu-text {
+    font-size: 1.5rem; /* Increase text size */
+    font-weight: 600; /* Optional: make text bolder */
+}
+
 .navbar-toggler {
     appearance: none;
     cursor: pointer;
