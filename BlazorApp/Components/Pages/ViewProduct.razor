@@ -16,7 +16,10 @@
 }
 else if (!products.Any())
 {
-    <p>No products found.</p>
+    <p>No product details found.Please add Company details first</p>
+    <MudButton  Variant="Variant.Outlined" Color="Color.Primary"  Size="Size.Large" onclick="NavigateToAddPage" Style="font-size: 18px; font-weight: bold; font-family: 'Open Sans';">
+        <MudIcon Icon="@Icons.Material.Filled.Add" /> Add Product
+    </MudButton>
 }
 else
 {
