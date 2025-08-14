@@ -1,7 +1,7 @@
 ﻿@page "/editproduct/{Id:guid}"
 @inject IMediator Mediator
 @inject NavigationManager NavigationManager
-
+@inject ISnackbar Snackbar
 @using SMEAdapter.Application.DTOs
 @using SMEAdapter.Application.Products.Queries.GetProducts
 @using SMEAdapter.Application.Products.Queries.GetProductById
@@ -41,7 +41,7 @@ else
             <MudTextField T="string" Label="Serial Number" @bind-Value="product.SerialNumber" />
             <MudDivider Class="my-4" />
 
-            <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save</MudButton>
+            <MudButton @onclick=@EditSnackBar Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save</MudButton>
             <MudButton Color="Color.Secondary" Variant="Variant.Text" OnClick="Cancel">Cancel</MudButton>
                 
     </EditForm>
@@ -68,5 +68,14 @@ else
     private void Cancel()
     {
         NavigationManager.NavigateTo("/viewproducts");
+    }
+
+    private void EditSnackBar()
+    {
+        Snackbar.Add("Changes have been saved succesfully", Severity.Success, config =>
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+        });
+
     }
 }

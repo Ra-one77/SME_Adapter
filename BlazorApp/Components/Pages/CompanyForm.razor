@@ -3,6 +3,9 @@
 @using System.IO
 @inject NavigationManager Navigation
 @inject SMEAdapter.Application.Services.ProductInfoService StateInfo
+@inject ISnackbar Snackbar
+
+
 <br/>
 <h3>Company Details</h3>
 <MudGrid>
@@ -24,7 +27,8 @@
             <MudText Typo="Typo.h6" Class="mt-4">Upload Company Logo</MudText>
             <InputFile OnChange="OnFilesChanged" accept=".png,.jpg,.jpeg,.pdf" />
             <MudStack Row="true" Spacing="2" Class="mt-4">
-                <MudButton Variant="Variant.Outlined"  ButtonType="ButtonType.Submit" Size="Size.Large" Style="font-size: 18px; font-weight: bold; font-family: 'Open Sans';">
+
+                    <MudButton Variant="Variant.Outlined" @onclick=@SaveSnackBar ButtonType="ButtonType.Submit" Size="Size.Large" Style="font-size: 18px; font-weight: bold; font-family: 'Open Sans';">
                     Save
                 </MudButton>
 
@@ -36,6 +40,8 @@
         </MudPaper>
     </MudItem>
 </MudGrid>
+
+
 @code {
     private ProductDto company = new ProductDto();
 
@@ -45,7 +51,7 @@
     {
         StateInfo.CurrentProductDetails = company;
         Navigation.NavigateTo("/");
-        
+
     }
 
     private void HandleInvalidSubmit()
@@ -64,6 +70,13 @@
         await stream.CopyToAsync(fileStream);
     }
 
-        
-    
+    private void SaveSnackBar()
+    {
+        Snackbar.Add("The company details have been saved successfully", Severity.Success, config =>
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+        });
+
+    }
+
 }

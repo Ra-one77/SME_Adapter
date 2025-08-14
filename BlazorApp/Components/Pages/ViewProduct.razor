@@ -8,7 +8,7 @@
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
 
-<h3>Products List</h3>
+
 
 @if (products == null)
 {
@@ -16,41 +16,65 @@
 }
 else if (!products.Any())
 {
-    <p>No product details found.Please add Company details first</p>
-    <MudButton  Variant="Variant.Outlined" Color="Color.Primary"  Size="Size.Large" onclick="NavigateToAddPage" Style="font-size: 18px; font-weight: bold; font-family: 'Open Sans';">
-        <MudIcon Icon="@Icons.Material.Filled.Add" /> Add Product
-    </MudButton>
+ <MudGrid>
+    <MudItem xs="12" sm="12" md="6">
+    <MudPaper Class="pa-6 ma-4" Elevation="8" Style="border: 1px solid lightgray; border-radius: 8px;">
+     <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 50px;">
+
+        <MudText Typo= "Typo.h4">No product details found.Please add Company details first if not done</MudText>
+        <MudButton  Variant="Variant.Outlined" Color="Color.Primary"  Size="Size.Large" onclick="NavigateToAddPage" Style="font-size: 18px; font-weight: bold; font-family: 'Open Sans';">
+            <MudIcon Icon="@Icons.Material.Filled.Add" /> Add Product
+        </MudButton>
+     </div>
+    </MudPaper>
+  </MudItem>
+</MudGrid>
 }
 else
 {
+    <style type="text/css">
+        .mud-table-head .header-centered th {
+            text-align: center;
+            font-size: 16px;
+        }
 
-    <MudTable @ref="_table" T="ProductDto" Items="@products" MultiSelection = "true"  SelectionChangeable="_selectionChangeable" Hover="true"
-              @bind-SelectedItems="selectedItems"  SelectOnRowClick="false" ShowCheckBox="true"  >
-        
-        <HeaderContent>
-            <MudTh rowspan="2">Manufacturer Name</MudTh>
-            <MudTh colspan="3">Address Info</MudTh>
-            <MudTh colspan="6">Product Info</MudTh>
-            <MudTh rowspan="2">Serial Number</MudTh>
-        </HeaderContent>
-        <HeaderContent>
-            <MudTh>ManufacturerName</MudTh>
-            <MudTh>Zip Code</MudTh>
-            <MudTh>City</MudTh>
-            <MudTh>Country</MudTh>
+        .mud-table-foot .bold-text .mud-table-cell {
+            font-weight: 500;
+        }
+    </style>
 
-            <MudTh>Designation</MudTh>
-            <MudTh>Root</MudTh>
-            <MudTh>Family</MudTh>
-            <MudTh>Type</MudTh>
-            <MudTh>Order Code</MudTh>
-            <MudTh>Article No</MudTh>
-            <MudTh>Serial Number</MudTh>
+    <MudTable @ref="_table" T="ProductDto" Items="@products" Breakpoint="Breakpoint.Sm" Striped="true" MultiSelection="true" SelectionChangeable="_selectionChangeable" Hover="true" Dense="true" Outlined="true" Elevation="2"
+              Bordered="true" CustomHeader="true" @bind-SelectedItems="selectedItems" HeaderClass="table-head-bordered" SelectOnRowClick="true" Filter="new Func<ProductDto,bool>(FilterFunc1)">
+        <ToolBarContent>
+         
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTHeadRow  Class="header-centered">
+                <MudTh rowspan ="2">Manufacturer Name</MudTh>
+                <MudTh colspan="3">Address Info</MudTh>
+                <MudTh colspan="6">Product Info</MudTh>
+                <MudTh rowspan ="2">Serial Number</MudTh>
+            </MudTHeadRow>
+            <MudTHeadRow Class="header-centered">
+                
+                <MudTh>Zip Code</MudTh>
+                <MudTh>City</MudTh>
+                <MudTh>Country</MudTh>
+
+                <MudTh>Designation</MudTh>
+                <MudTh>Root</MudTh>
+                <MudTh>Family</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh>Order Code</MudTh>
+                <MudTh>Article Number</MudTh>
+            </MudTHeadRow>
         </HeaderContent>
         <RowTemplate Context="product">
             
 
-            <MudTd DataLabel="Manufacturer Name">@product.ManufacturerName</MudTd>
+            <MudTd DataLabel="Manufacturer Name" >@product.ManufacturerName</MudTd>
 
             <MudTd DataLabel="Zip Code">@product.AddressInfo.ZipCode</MudTd>
             <MudTd DataLabel="City">@product.AddressInfo.City</MudTd>
@@ -91,7 +115,7 @@ else
     private bool CanDelete => selectedItems?.Any() == true;
     private bool CanEdit => selectedItems?.Count == 1;
 
-
+    private string searchString1 = "";
     private bool showDialog = false;
     private ProductDto? selectedProduct;
   
@@ -133,6 +157,8 @@ else
         
         await LoadProducts(); 
 
+        DeleteSnackBar(); // Show snackbar after deletion
+
         selectedItems.Clear();
     }
 
@@ -146,5 +172,36 @@ else
         products = await Mediator.Send(new GetAllProductsQuery());
         StateHasChanged(); // Optional but helps force UI update
     }
+    private void DeleteSnackBar()
+    {
+        Snackbar.Add("The selected products have been deleted", Severity.Info, config =>
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+        });
+
+    }
+
+    private bool FilterFunc1(ProductDto product) => FilterFunc(product, searchString1);
+
+    private bool FilterFunc(ProductDto product, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (product.ManufacturerName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (product.SerialNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (product.ProductInfo.ProductDesignation.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (product.ProductInfo.ProductDesignation.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+
 }
 

@@ -6,6 +6,7 @@
 @inject NavigationManager navigate
 @using SMEAdapter.Application.Products.CreateProduct
 @inject IMediator Mediator
+@inject ISnackbar  Snackbar
 
 @if (State.CurrentProductDetails != null)
 {
@@ -86,7 +87,7 @@
 
                     <!-- Action Buttons -->
                     <MudStack Row="true" Spacing="2" Class="mt-4">
-                        <MudButton Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Color="Color.Primary"
+                        <MudButton @onclick=@SaveSnackBar Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Color="Color.Primary"
                                    Size="Size.Large" Style="font-size: 18px; font-weight: bold; font-family: 'Open Sans';">
                             Save
                         </MudButton>
@@ -145,6 +146,15 @@ else
             ProductInfo = new ProductInfo(), // reset all product fields
             
         };
+    }
+
+    private void SaveSnackBar()
+    {
+        Snackbar.Add("The product detials have been saved succesfully", Severity.Success, config =>
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+        });
+
     }
 }
 

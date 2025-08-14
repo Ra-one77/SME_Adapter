@@ -42,7 +42,7 @@ namespace SMEAdapter.Infrastructure.Repositories
                 await _context.SaveChangesAsync(cancellationToken);
             }
 
-        public async Task DeleteAsync(Product product)
+            public async Task DeleteAsync(Product product)
             {                
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
