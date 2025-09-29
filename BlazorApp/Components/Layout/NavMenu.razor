@@ -4,25 +4,27 @@
     <MudText Typo="Typo.h6" Class="px-4">Navigation Menu</MudText>
 </MudAppBar>
    
-<MudNavMenu>
-    <MudNavLink Href="/"  Match="NavLinkMatch.All" >
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <MudIcon Icon="@Icons.Material.Filled.Home" Size="Size.Large" />
-            <span class="nav-menu-text">Home</span>
-        </div>
-    </MudNavLink>
-    <MudNavLink Href="/viewproducts" Match="NavLinkMatch.All">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <MudIcon Icon="@Icons.Custom.Uncategorized.Folder" Size="Size.Large" />
-            <span class="nav-menu-text">Products</span>
-        </div>
-    </MudNavLink>
-    <MudNavLink Href="/testpage" Match="NavLinkMatch.All">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <MudIcon Icon="@Icons.Material.Filled.Build" Size="Size.Large" />
-            <span class="nav-menu-text">Test pages</span>
-        </div>
-    </MudNavLink>
+<MudNavMenu Color="Color.Secondary">
+    <div>
+        <MudNavLink Href="/" Match="NavLinkMatch.All">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <MudIcon Icon="@Icons.Material.Filled.Home" Size="Size.Large" />
+                <span class="nav-menu-text">Home</span>
+            </div>
+        </MudNavLink>
+        <MudNavLink Href="/viewproducts" Match="NavLinkMatch.All">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <MudIcon Icon="@Icons.Custom.Uncategorized.Folder" Size="Size.Large" />
+                <span class="nav-menu-text">Products</span>
+            </div>
+        </MudNavLink>
+        <MudNavLink Href="/testpage" Match="NavLinkMatch.All">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <MudIcon Icon="@Icons.Material.Filled.Build" Size="Size.Large" />
+                <span class="nav-menu-text">Test pages</span>
+            </div>
+        </MudNavLink>
+    </div>
 </MudNavMenu>
     
 @code {

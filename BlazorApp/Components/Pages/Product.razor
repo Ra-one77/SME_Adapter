@@ -2,19 +2,19 @@
 
 @using MediatR;
 @using SMEAdapter.Application.DTOs;
-@inject SMEAdapter.Application.Services.ProductInfoService State
+@inject SMEAdapter.Application.Services.CompanyInfoService  CompanyInfo
 @inject NavigationManager navigate
 @using SMEAdapter.Application.Products.CreateProduct
 @inject IMediator Mediator
 @inject ISnackbar  Snackbar
 @inject IDialogService DialogService
 
-@if (State.CurrentProductDetails != null)
+@if (product != null)
 {
 <MudGrid>
     <MudItem xs="12" sm="12" md="12">
         <MudPaper Class="pa-6 ma-4" Elevation="8" Style="border: 1px solid lightgray; border-radius: 8px;">
-                <EditForm Model="@State.CurrentProductDetails" OnValidSubmit="HandleValidSubmit" >
+                <EditForm Model="@product" OnValidSubmit="HandleValidSubmit" >
                     <DataAnnotationsValidator />
 
                  <MudExpansionPanels>
@@ -27,8 +27,8 @@
                             <ChildContent>
                                 <MudText Typo="Typo.h5" Class="font-semibold">Manufacturer Name</MudText>
                                 <MudTextField T="string" Variant="Variant.Outlined" HelperTextOnFocus="true" HelperText="Full legal name of the product manufacturer" 
-                                                    @bind-Value="State.CurrentProductDetails.ManufacturerName"
-                                                    For="@(() => State.CurrentProductDetails.ManufacturerName)"
+                                                    @bind-Value="product.ManufacturerName"
+                                                    For="@(() => product.ManufacturerName)"
                                                     Class="custom-font" Placeholder="MusterGmbh" />
 
                                 <!-- Address Info -->
@@ -38,20 +38,20 @@
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">ZipCode</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="ZIP or postal code for the manufacturer’s address" Variant="Variant.Outlined" 
-                                                  @bind-Value="State.CurrentProductDetails.AddressInfo.ZipCode"
-                                                  For="@(() => State.CurrentProductDetails.AddressInfo.ZipCode)"
+                                                  @bind-Value="product.AddressInfo.ZipCode"
+                                                  For="@(() => product.AddressInfo.ZipCode)"
                                               Class="custom-font" Placeholder="1234" />
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">City</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="City where the manufacturer is based" Variant="Variant.Outlined" 
-                                                  @bind-Value="State.CurrentProductDetails.AddressInfo.City"
-                                                  For="@(() => State.CurrentProductDetails.AddressInfo.City)"
+                                                  @bind-Value="product.AddressInfo.City"
+                                                  For="@(() => product.AddressInfo.City)"
                                               Class="custom-font" Placeholder="Musterstadt" />
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">Country</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="Country where the manufacturer is based" Variant="Variant.Outlined" 
-                                                  @bind-Value="State.CurrentProductDetails.AddressInfo.Country"
-                                                  For="@(() => State.CurrentProductDetails.AddressInfo.Country)"
+                                                  @bind-Value="product.AddressInfo.Country"
+                                                  For="@(() => product.AddressInfo.Country)"
                                               Class="custom-font" Placeholder="Muster-Bundesland" />
                             </ChildContent>
                     </MudExpansionPanel>
@@ -69,45 +69,45 @@
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">ProductFamily</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="Group of related products that share similar features" Variant="Variant.Outlined" Placeholder="Type ABC"
-                                    @bind-Value="State.CurrentProductDetails.ProductInfo.ProductFamily"
-                                    For="@(() => State.CurrentProductDetails.ProductInfo.ProductFamily)"
+                                    @bind-Value="product.ProductInfo.ProductFamily"
+                                    For="@(() => product.ProductInfo.ProductFamily)"
                                     Class="custom-font" />
 
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">ProductRoot</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="Base model from which product variants are derived" Variant="Variant.Outlined" Placeholder=""
-                                    @bind-Value="State.CurrentProductDetails.ProductInfo.ProductRoot"
-                                    For="@(() => State.CurrentProductDetails.ProductInfo.ProductRoot)"
+                                    @bind-Value="product.ProductInfo.ProductRoot"
+                                    For="@(() => product.ProductInfo.ProductRoot)"
                                     Class="custom-font" />
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">ProductType</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="General category the product belongs to" Variant="Variant.Outlined" Placeholder="FM-ABC-1234"
-                                    @bind-Value="State.CurrentProductDetails.ProductInfo.ProductType"
-                                    For="@(() => State.CurrentProductDetails.ProductInfo.ProductType)"
+                                    @bind-Value="product.ProductInfo.ProductType"
+                                    For="@(() => product.ProductInfo.ProductType)"
                                     Class="custom-font" />
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">ProductDesignation</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="Official name used to market or identify this product" Variant="Variant.Outlined" Placeholder="ABC-123"
-                                  @bind-Value="State.CurrentProductDetails.ProductInfo.ProductDesignation"
-                                  For="@(() => State.CurrentProductDetails.ProductInfo.ProductDesignation)"
+                                  @bind-Value="product.ProductInfo.ProductDesignation"
+                                  For="@(() => product.ProductInfo.ProductDesignation)"
                                   Class="custom-font" />
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">SerialNumber</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="Internal code used for stock and inventory tracking" Variant="Variant.Outlined" Placeholder="12345678"
-                                  @bind-Value="State.CurrentProductDetails.SerialNumber"
-                                  For="@(() => State.CurrentProductDetails.SerialNumber)"
+                                  @bind-Value="product.SerialNumber"
+                                  For="@(() => product.SerialNumber)"
                                   Class="custom-font" />
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">OrderCode</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="Code customers use to order this exact configuration" Variant="Variant.Outlined" Placeholder="FMBABC12345"
-                                    @bind-Value="State.CurrentProductDetails.ProductInfo.OrderCode"
-                                    For="@(() => State.CurrentProductDetails.ProductInfo.OrderCode)"
+                                    @bind-Value="product.ProductInfo.OrderCode"
+                                    For="@(() => product.ProductInfo.OrderCode)"
                                     Class="custom-font" />
 
                                 <MudText Typo="Typo.h6" Class="font-semibold">ArticleNumber</MudText>
                                 <MudTextField T="string" HelperTextOnFocus="true" HelperText="Unique identifier for each individual unit. Used for warranty and traceability" Variant="Variant.Outlined" Placeholder=""
-                                  @bind-Value="State.CurrentProductDetails.ProductInfo.ArticleNumber"
-                                  For="@(() => State.CurrentProductDetails.ProductInfo.ArticleNumber)"
+                                  @bind-Value="product.ProductInfo.ArticleNumber"
+                                  For="@(() => product.ProductInfo.ArticleNumber)"
                                   Class="custom-font" />
 
                                 <MudText Typo="Typo.h6" Class="mt-4">Upload Product Image</MudText>
@@ -158,7 +158,8 @@ else
 @code {
 
     [Parameter] public bool IsFirstProduct { get; set; }
-
+   
+    private ProductDto? product;
     
 
     private async Task OnFilesChanged(InputFileChangeEventArgs e)
@@ -169,12 +170,12 @@ else
         using var fs = new FileStream(path, FileMode.Create);
         await file.OpenReadStream().CopyToAsync(fs);
 
-        State.CurrentProductDetails.ImageUrl = $"images/{file.Name}";
+        product.ImageUrl = $"images/{file.Name}";
     }
 
     private async Task HandleValidSubmit()
     {
-        var command = new CreateProductCommand(State.CurrentProductDetails);
+        var command = new CreateProductCommand(product);
         await Mediator.Send(command);
 
         
@@ -192,14 +193,21 @@ else
     protected override void OnInitialized()
     {
         // Keep the company details as-is
-        var existingCompany = State.CurrentProductDetails?.ManufacturerName;
-        var existingAddress = State.CurrentProductDetails?.AddressInfo;
+        var existingCompany = CompanyInfo.CurrentCompany?.CompanyManufacturerName;
+        var existingAddress = CompanyInfo.CurrentCompany?.CompanyAddressInfo;
 
         // Reinitialize only product-specific fields
-        State.CurrentProductDetails = new ProductDto
+        product = new ProductDto
         {
             ManufacturerName = existingCompany,
-            AddressInfo = existingAddress,
+            AddressInfo = existingAddress != null
+            ? new AddressInfo
+            {
+                City = existingAddress.City,
+                ZipCode = existingAddress.ZipCode,
+                Country = existingAddress.Country
+            }
+            : new AddressInfo(),
             ProductInfo = new ProductInfo(), // reset all product fields
             
         };

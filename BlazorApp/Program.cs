@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-builder.Services.AddSingleton<ProductInfoService>();
+builder.Services.AddSingleton<CompanyInfoService>();
 builder.Services.AddApplication();
 builder.Services.AddInfrasturcture(builder.Configuration);
 builder.Services.AddMudServices();

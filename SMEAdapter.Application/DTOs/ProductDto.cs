@@ -16,10 +16,10 @@ namespace SMEAdapter.Application.DTOs
         public AddressInfo AddressInfo { get; set; } = new AddressInfo();
         public ProductInfo ProductInfo { get; set; } = new ProductInfo();
         public string SerialNumber { get; set; } = string.Empty;
-        public Guid CompanyId { get; set; }
+      
 
         public string? ImageUrl { get; set; }
-        public ICollection<ProductDocumentDto> Documents { get; set; }
+        public ICollection<ProductDocumentDto>? Documents { get; set; }
 
     }
 

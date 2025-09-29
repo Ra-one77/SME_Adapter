@@ -8,12 +8,14 @@
         color: white !important;
 }
 
-.appbar-title {
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: white;
-    margin-left: 12px;
-    margin-top: 20px;
+.appbar-title{
+    font-weight: 600 !important;
+    font-family: Consolas !important;
+    letter-spacing: 0.5px !important;
+    color: white !important;
+    margin-left: 5px !important;
+    padding: 5px !important;
+    margin-top: 5px;
 }
 .page {
     position: relative;

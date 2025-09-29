@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SMEAdapter.Domain.Entities
+namespace SMEAdapter.Application.DTOs
 {
-    public class Company
+    public class CompanyDto
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required(ErrorMessage = "Manufacturer Name is required")]

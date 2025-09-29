@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SMEAdapter.Infrastructure;
 
@@ -11,9 +12,11 @@ using SMEAdapter.Infrastructure;
 namespace SMEAdapter.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250928162121_UpdateProductDocumentWithOwnedTypes")]
+    partial class UpdateProductDocumentWithOwnedTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,6 @@ namespace SMEAdapter.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<byte[]>("Data")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FileName")
@@ -66,7 +68,7 @@ namespace SMEAdapter.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -156,119 +158,9 @@ namespace SMEAdapter.Infrastructure.Migrations
                     b.HasOne("SMEAdapter.Domain.Entities.Product", "Product")
                         .WithMany("Documents")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("SMEAdapter.Domain.Entities.DocumentClassification", "Classification", b1 =>
-                        {
-                            b1.Property<Guid>("ProductDocumentId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("ClassDescription")
-                                .HasMaxLength(255)
-                                .HasColumnType("nvarchar(255)");
-
-                            b1.Property<string>("ClassId")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
-
-                            b1.Property<string>("ClassLang")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<string>("ClassName")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
-
-                            b1.Property<string>("ClassificationSystem")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
-
-                            b1.HasKey("ProductDocumentId");
-
-                            b1.ToTable("ProductDocuments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ProductDocumentId");
-                        });
-
-                    b.OwnsOne("SMEAdapter.Domain.Entities.DocumentIdentifier", "Identifier", b1 =>
-                        {
-                            b1.Property<Guid>("ProductDocumentId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("DomainId")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
-
-                            b1.Property<string>("ValueId")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
-
-                            b1.HasKey("ProductDocumentId");
-
-                            b1.ToTable("ProductDocuments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ProductDocumentId");
-                        });
-
-                    b.OwnsOne("SMEAdapter.Domain.Entities.DocumentVersion", "Version", b1 =>
-                        {
-                            b1.Property<Guid>("ProductDocumentId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Keywords")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Language")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<string>("OrganisationName")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)");
-
-                            b1.Property<string>("OrganisationOfficialName")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)");
-
-                            b1.Property<string>("State")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<DateTime?>("StateDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("Summary")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Title")
-                                .HasMaxLength(255)
-                                .HasColumnType("nvarchar(255)");
-
-                            b1.Property<string>("Version")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.HasKey("ProductDocumentId");
-
-                            b1.ToTable("ProductDocuments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ProductDocumentId");
-                        });
-
-                    b.Navigation("Classification")
-                        .IsRequired();
-
-                    b.Navigation("Identifier")
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Product");
-
-                    b.Navigation("Version")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SMEAdapter.Domain.Entities.Product", b =>

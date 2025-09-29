@@ -1,18 +1,57 @@
 ﻿@inherits LayoutComponentBase
-
+@inject SMEAdapter.Application.Services.CompanyInfoService CompanyInfo
 
 <MudThemeProvider/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
+<MudPopoverProvider />
 
 
 <MudLayout >
-    <MudAppBar style="background-color :  #2A9FD6; height:80px; min-height:80px" Elevation="3" >
+    <MudAppBar style="background-color :  #2A9FD6; " Elevation="2" >
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Size = "Size.Large" Edge="Edge.Start" OnClick="@DrawerToggle" Style=""/>
-            <img src="images/SME Adapter_Logo.png" alt="Logo" style="height:60px; width:auto; margin-left: 16px; margin-top: 16px; margin-right:16px;" />
-        <MudText Typo="Typo.h3" Class="appbar-title" FullWidth="true">SME Adapter</MudText>
+        <div style="display:flex; align-items:center; height:70px; margin-left:16px; margin-right:16px;">
+            <img src="images/SME_Adapter_Logo.png" alt="Logo" style="display:flex; align-items:center; height:65px; margin-left:16px; margin-right:5px;"  />
+        </div>
+        <div class="appbar-title">
+            <MudText Typo="Typo.h3">SME Adapter</MudText>
+        </div>
+        <MudSpacer />
+        <div style="display:flex; align-items:center; height:100%; margin-right:16px;">
+            <img src="images/David_Logo_New.png" alt="Logo" style="height:80px; width:auto;" />
+        </div>
+        <MudMenu AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
+            <ActivatorContent>
+                
+                    @if (CompanyInfo.CurrentCompany is null)
+                    {
+                        <!-- Default account icon -->
+                    <MudAvatar Style="height:70px; width:70px; padding:5px">
+                        <MudIcon Icon="@Icons.Material.Filled.AccountCircle"
+                                 Style="font-size:80px; color:#F5F5F5" />
+                      </MudAvatar> 
+                    }
+                    else
+                    {
+                        <!-- Company image -->
+                    <MudAvatar Size="Size.Large">
+                        <MudImage Src="@CompanyInfo.CurrentCompany.CompanyImageUrl"
+                                  Alt="CompanyImage"
+                                  Style="object-fit:contain;width:100%; height:100%;" />
+                    </MudAvatar>
+                    }
+              
+            </ActivatorContent>
+            
+            <ChildContent>
+                <MudMenuItem Label="Profile" />
+                <MudMenuItem Label="Theme" />
+                <MudMenuItem Label="Settings" />
+            </ChildContent>
+        </MudMenu>
+
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Width="250px" Elevation="4" Style="padding-top:10px;">
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Width="250px" Elevation="2" Style="padding-top:10px;">
         <NavMenu/>
     </MudDrawer>
     
@@ -30,4 +69,9 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+    protected override void OnInitialized()
+    {
+        CompanyInfo.OnChange += async () => await InvokeAsync(StateHasChanged);
+    }
 }
+
